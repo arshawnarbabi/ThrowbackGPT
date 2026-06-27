@@ -71,12 +71,18 @@ export async function POST(req: NextRequest) {
         },
       });
       return new Response(stream, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
-    } catch {
-      // fall through to mock on any client error
+    } catch (err) {
+      console.error("[throwbackgpt] OpenAI request failed — falling back to mock:", err);
     }
   }
 
-  // ---- Mock path (no API key): stream a canned, era-flavored reply ----
+  // ---- Mock path (no API key, or the real call failed): canned, era-flavored reply ----
+  if (!apiKey) {
+    console.warn(
+      "[throwbackgpt] OPENAI_API_KEY is not set on this deployment — serving MOCK responses. " +
+        "On Vercel: Settings → Environment Variables → add OPENAI_API_KEY (Production), then redeploy.",
+    );
+  }
   const last = [...messages].reverse().find((m) => m.role === "user")?.content || "";
   const reply = mockReply(last);
   const pieces = reply.split(/(\s+)/);
