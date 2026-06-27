@@ -1,0 +1,27 @@
+# dependencies
+/node_modules
+
+# next.js build output
+/.next/
+/out/
+
+# secrets — never commit env files with real keys
+.env
+.env.local
+.env*.local
+!.env.example
+
+# reference screenshots used during development (third-party images — not redistributed)
+/screenshots/
+
+# verification run artifacts (kept local; scripts + reports are committed)
+/verification/actual/
+/verification/eval-results*.json
+
+# source copy of the favicon (the canonical one is app/icon.png)
+/favicon.png
+
+# misc
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
