@@ -10,7 +10,6 @@ import {
   SunIcon,
   DiscordIcon,
   ExternalLinkIcon,
-  LogoutIcon,
   PencilIcon,
   GearIcon,
   CloseIcon,
@@ -57,7 +56,6 @@ export default function Sidebar() {
   const clearAll = useStore((s) => s.clearAll);
   const theme = useStore((s) => s.theme);
   const toggleTheme = useStore((s) => s.toggleTheme);
-  const setLoggedIn = useStore((s) => s.setLoggedIn);
 
   const openSettings = useUI((s) => s.openSettings);
   const sidebarOpen = useUI((s) => s.sidebarOpen);
@@ -204,7 +202,6 @@ export default function Sidebar() {
           <MenuLink icon={<DiscordIcon />} label="Discord" />
           <MenuLink icon={<ExternalLinkIcon />} label="Updates & FAQ" />
           <MenuButton icon={<GearIcon />} label="Settings" onClick={openSettings} />
-          <MenuButton icon={<LogoutIcon />} label="Log out" onClick={() => setLoggedIn(false)} />
         </div>
       </aside>
     </>

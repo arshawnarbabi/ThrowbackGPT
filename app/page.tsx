@@ -7,7 +7,6 @@ import Sidebar from "@/components/Sidebar";
 import EmptyState from "@/components/EmptyState";
 import ChatView from "@/components/ChatView";
 import Composer from "@/components/Composer";
-import LoginSplash from "@/components/LoginSplash";
 import OnboardingModal from "@/components/OnboardingModal";
 import SettingsDialog from "@/components/SettingsDialog";
 import FeedbackModal from "@/components/FeedbackModal";
@@ -23,7 +22,6 @@ export default function Page() {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  const loggedIn = useStore((s) => s.loggedIn);
   const onboarded = useStore((s) => s.onboarded);
   const hasMessages = useStore(
     (s) => ((s.conversations.find((c) => c.id === s.activeId)?.messages.length ?? 0) > 0),
@@ -32,8 +30,6 @@ export default function Page() {
 
   // avoid hydration mismatch with persisted (localStorage) state
   if (!mounted) return <div style={{ height: "100vh", background: "var(--main-bg)" }} />;
-
-  if (!loggedIn) return <LoginSplash />;
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: "var(--main-bg)" }}>

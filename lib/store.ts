@@ -17,7 +17,6 @@ interface State {
   conversations: Conversation[];
   activeId: string | null;
   theme: Theme;
-  loggedIn: boolean;
   onboarded: boolean;
   isStreaming: boolean;
 
@@ -28,7 +27,6 @@ interface State {
   clearAll: () => void;
   setTheme: (t: Theme) => void;
   toggleTheme: () => void;
-  setLoggedIn: (v: boolean) => void;
   setOnboarded: (v: boolean) => void;
 
   sendMessage: (text: string) => Promise<void>;
@@ -87,7 +85,6 @@ export const useStore = create<State>()(
         conversations: [],
         activeId: null,
         theme: "light",
-        loggedIn: false,
         onboarded: false,
         isStreaming: false,
 
@@ -107,7 +104,6 @@ export const useStore = create<State>()(
         clearAll: () => set({ conversations: [], activeId: null }),
         setTheme: (t) => set({ theme: t }),
         toggleTheme: () => set((s) => ({ theme: s.theme === "light" ? "dark" : "light" })),
-        setLoggedIn: (v) => set({ loggedIn: v }),
         setOnboarded: (v) => set({ onboarded: v }),
 
         sendMessage: async (text) => {
@@ -169,7 +165,6 @@ export const useStore = create<State>()(
         conversations: s.conversations,
         activeId: s.activeId,
         theme: s.theme,
-        loggedIn: s.loggedIn,
         onboarded: s.onboarded,
       }),
     },

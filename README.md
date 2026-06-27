@@ -21,7 +21,7 @@ A faithful, open-source recreation of the **original November–December 2022 Ch
 - Token-by-token streaming with the blinking cursor; **Stop generating** / **Regenerate response**
 - **Light + dark** themes (default light, like the original — the sidebar stays dark in both, also like the original)
 - Multi-chat history in the sidebar with inline rename/delete, persisted to `localStorage`
-- Faux **login + onboarding** flow, account/settings, thumbs-down feedback modal
+- Boots **straight into the chat**; first-run **onboarding** modal, settings, and a thumbs-down feedback modal
 - The iconic **"ChatGPT is at capacity"** easter egg (`/capacity`)
 - Markdown answers with dark code blocks + inline code, responsive mobile drawer
 - Automatic **OpenAI prompt caching** (the ~3.3k-token system prompt is cached for ~50% off on repeat calls)
