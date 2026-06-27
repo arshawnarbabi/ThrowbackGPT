@@ -18,7 +18,11 @@ export async function POST(req: NextRequest) {
     return new Response("Bad request", { status: 400 });
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  // trim() defends against a trailing newline/space in the env var value
+  // (a classic "works locally, fails on the host" cause).
+  const apiKey = process.env.OPENAI_API_KEY?.trim();
+  let mockReason: "no-key" | "error" = "no-key";
+  let errDetail = "";
 
   // ---- Real model path (gpt-4o-mini) ----
   if (apiKey) {
@@ -70,8 +74,12 @@ export async function POST(req: NextRequest) {
           }
         },
       });
-      return new Response(stream, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
+      return new Response(stream, {
+        headers: { "Content-Type": "text/plain; charset=utf-8", "X-ThrowbackGPT-Mode": "live" },
+      });
     } catch (err) {
+      mockReason = "error";
+      errDetail = err instanceof Error ? err.message : String(err);
       console.error("[throwbackgpt] OpenAI request failed — falling back to mock:", err);
     }
   }
@@ -95,7 +103,13 @@ export async function POST(req: NextRequest) {
       controller.close();
     },
   });
-  return new Response(stream, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "X-ThrowbackGPT-Mode": `mock-${mockReason}`,
+      ...(errDetail ? { "X-ThrowbackGPT-Error": errDetail.slice(0, 200) } : {}),
+    },
+  });
 }
 
 function mockReply(userText: string): string {
